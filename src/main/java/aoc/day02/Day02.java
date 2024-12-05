@@ -31,7 +31,18 @@ public class Day02 extends Day {
 
     @Override
     public String part2(List<String> input) {
-        return null;
+        List<List<Integer>> inputArray = new ArrayList<>();
+        for (String line : input) {
+            inputArray.add(splitString(line));
+        }
+
+        Integer answer = 0;
+
+        for (List<Integer> array : inputArray) {
+            answer += parseReports2(array, true);
+        }
+
+        return answer.toString();
     }
 
     private List<Integer> splitString(String input) {
@@ -49,15 +60,32 @@ public class Day02 extends Day {
                 return 1;
             }
         }
+        return 0;
+    }
+
+    private int parseReports2(List<Integer> input, boolean flag) {
+        List<Integer> sortedList = new ArrayList<>(input);
+        Collections.sort(sortedList);
+        List<Integer> reverseList = new ArrayList<>(sortedList);
+        Collections.reverse(reverseList);
+
+        if (sortedList.equals(input) || reverseList.equals(input)) {
+            if (checkDifference(input)) {
+                return 1;
+            }
+        }
 
         List<List<Integer>> removedlists = new ArrayList<>();
 
-        for(int i = 0; i < input.size(); i++)
-        {
-//            List<Integer> newList = newList
+        if(flag) {
+            for (int i = 0; i < input.size(); i++) {
+                List<Integer> newList = new ArrayList<>(input);
+                newList.remove(i);
+                removedlists.add(newList);
+            }
         }
 
-        return 0;
+        return removedlists.stream().map(m -> parseReports2(m, false)).reduce(0, Integer::sum) >= 1 ? 1 : 0;
     }
 
     private boolean checkDifference(List<Integer> input) {
