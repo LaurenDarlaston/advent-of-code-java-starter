@@ -50,6 +50,13 @@ public class Day02 extends Day {
             }
         }
 
+        List<List<Integer>> removedlists = new ArrayList<>();
+
+        for(int i = 0; i < input.size(); i++)
+        {
+//            List<Integer> newList = newList
+        }
+
         return 0;
     }
 
